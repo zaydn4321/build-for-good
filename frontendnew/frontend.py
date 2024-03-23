@@ -6,22 +6,25 @@ def display_message(speedUp=False, slowDown=False):
 
     app = QApplication(sys.argv)
     window = QWidget()
+    palette = window.palette()
 
     if speedUp:
         window.setWindowTitle('Speed Up')
-        palette = window.palette()
         palette.setColor(QPalette.Window, QColor('green'))
-        window.setPalette(palette)
-        label = QLabel('SPEED UP')
+        text = 'SPEED UP'
     elif slowDown:
         window.setWindowTitle('Slow Down')
-        palette = window.palette()
         palette.setColor(QPalette.Window, QColor('red'))
-        window.setPalette(palette)
-        label = QLabel('SLOW DOWN')
+        text = 'SLOW DOWN'
+    else:
+        window.setWindowTitle('Keep Going')
+        palette.setColor(QPalette.Window, QColor('white'))
+        text = 'KEEP GOING'
 
+    window.setPalette(palette)
     window.setGeometry(100, 100, 500, 300)
 
+    label = QLabel(text)
     label.setFont(QFont('Tauri', 48, QFont.Bold))
     label.setAlignment(Qt.AlignCenter)
 
