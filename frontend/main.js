@@ -1,38 +1,41 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require('path');
 
 let mainWindow;
 
 function createWindow() {
+  // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
-      contextIsolation: false, // Remember, for production it's better to use context isolation
+      contextIsolation: false,
     }
   });
 
+  // Load the index.html of the app.
   mainWindow.loadFile('./screens/first.html');
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  createWindow();
 
-ipcMain.on('navigate-to-second', () => {
-  mainWindow.loadFile('./screens/second.html');
-});
-
-ipcMain.on('navigate-to-first', () => {
-  mainWindow.loadFile('./screens/first.html');
+  app.on('activate', () => {
+    // On macOS it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  // On macOS it is common for applications and their menu bar
+  // to stay active until the user quits explicitly with Cmd + Q
+  if (process.platform !== 'darwin') app.quit();
 });
 
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
-  }
+// IPC message for navigation
+ipcMain.on('navigate-to', (event, page) => {
+    mainWindow.loadFile(`${page}`);
 });

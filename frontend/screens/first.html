@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Start Screen</title>
+  <title>Get Started</title>
 </head>
 <body>
-    <h1>Welcome to the Start Screen</h1>
-    <button id="goToSecondScreen">Go to Next Screen</button>
-    <script>
-      const { ipcRenderer } = require('electron');
-      document.getElementById('goToSecondScreen').addEventListener('click', function() {
-        ipcRenderer.send('navigate-to-second');
-      });
-    </script>
+  <h1>Welcome to Teacher's Facials</h1>
+  <button id="getStarted">Get Started</button>
+  
+  <script>
+    const { ipcRenderer } = require('electron');
+    document.getElementById('getStarted').addEventListener('click', () => {
+      ipcRenderer.send('navigate-to', './screens/second.html');
+    });
+  </script>
 </body>
 </html>
