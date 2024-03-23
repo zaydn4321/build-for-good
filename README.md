@@ -1,2 +1,2 @@
 # build-for-good
-this for all the dogs
+This is our submission for the build-for-good hackathon.
