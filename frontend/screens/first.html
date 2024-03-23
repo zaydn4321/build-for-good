@@ -6,7 +6,12 @@
 </head>
 <body>
     <h1>Welcome to the Start Screen</h1>
-    <button id="goToSecondScreen">Go to Nddext Screen</button>
-    <script src="renderer.js"></script>
+    <button id="goToSecondScreen">Go to Next Screen</button>
+    <script>
+      const { ipcRenderer } = require('electron');
+      document.getElementById('goToSecondScreen').addEventListener('click', function() {
+        ipcRenderer.send('navigate-to-second');
+      });
+    </script>
 </body>
 </html>

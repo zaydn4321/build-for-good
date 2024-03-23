@@ -6,5 +6,12 @@
 </head>
 <body>
     <h1>This is the Second Screen</h1>
+    <button id="goBackToFirstScreen">Go Back to First Screen</button>
+    <script>
+      const { ipcRenderer } = require('electron');
+      document.getElementById('goBackToFirstScreen').addEventListener('click', function() {
+        ipcRenderer.send('navigate-to-first');
+      });
+    </script>
 </body>
 </html>
