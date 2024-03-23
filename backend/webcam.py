@@ -3,6 +3,47 @@ import time
 import requests
 import json
 import os
+import sys, time
+from PyQt5.QtWidgets import QApplication, QLabel, QWidget, QVBoxLayout
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QFont, QColor, QPalette
+
+app = QApplication(sys.argv)
+window = QWidget()
+palette = window.palette()
+window.setWindowTitle('Keep Going')
+palette.setColor(QPalette.Window, QColor('white'))
+window.setPalette(palette)
+window.setGeometry(100, 100, 500, 300)
+
+label = QLabel('KEEP GOING')
+label.setFont(QFont('Tauri', 48, QFont.Bold))
+label.setAlignment(Qt.AlignCenter)
+
+layout = QVBoxLayout()
+layout.addWidget(label)
+window.setLayout(layout)
+window.show()
+
+def display_message(speedUp=False, slowDown=False):
+    if speedUp:
+        window.setWindowTitle('Speed Up')
+        palette.setColor(QPalette.Window, QColor('green'))
+        text = 'SPEED UP'
+        label.setStyleSheet("color: white;")
+    elif slowDown:
+        window.setWindowTitle('Slow Down')
+        palette.setColor(QPalette.Window, QColor('red'))
+        text = 'SLOW DOWN'
+        label.setStyleSheet("color: white;")
+    else:
+        window.setWindowTitle('Keep Going')
+        palette.setColor(QPalette.Window, QColor('white'))
+        text = 'KEEP GOING'
+        label.setStyleSheet("color: black;")
+
+    label.setText(text)
+    window.setPalette(palette)
 
 class Student:
     def __init__(self, neutral, sadness, surprise, happiness, anger, fear):
@@ -91,6 +132,15 @@ try:
                     if(maxemotion == confusion):
                         confused_count += 1
                 print(f"attentive: {attentive_count}\nbored: {bored_count}\nconfused: {confused_count}")
+
+
+
+                if(bored_count >= attentive_count and bored_count >= confused_count):
+                    display_message(speedUp=True)
+                elif(confused_count >= attentive_count and confused_count >= bored_count):
+                    display_message(slowDown=True)
+                else:
+                    display_message()
 
             except Exception as e:
                 print("people not found!")
